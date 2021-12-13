@@ -19,6 +19,8 @@ defmodule MessageConsumer do
       "!raise" ->
         raise "No problems here!"
 
+      "!top" ->
+        Api.create_message(msg.channel_id, CTFTime.top)
       _ ->
         :ignore
     end
