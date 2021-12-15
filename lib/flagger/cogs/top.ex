@@ -14,9 +14,10 @@ defmodule Flagger.Cogs.Top do
   def parse_args(args) do
     first = Enum.at(args, 0)
     int = Integer.parse(first)
-    case int do
-      :error -> :error
-      _ -> elem(int, 0)
+    cond do
+      int == :error -> :error
+      elem(int, 0) < 2011 -> :inv_year
+      true -> elem(int, 0)
     end
   end
 
@@ -37,6 +38,11 @@ defmodule Flagger.Cogs.Top do
   def command(msg, :mul_args) do
     {:ok, _msg} =
       Nostrum.Api.create_message(msg.channel_id, content: "Multiple arguments are not supported!")
+  end
+
+  def command(msg, :inv_year) do
+    {:ok, _msg} =
+      Nostrum.Api.create_message(msg.channel_id, content: "Year must be after 2010!")
   end
 
   def command(msg, year) do
