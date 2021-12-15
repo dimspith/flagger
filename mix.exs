@@ -22,6 +22,7 @@ defmodule Flagger.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:nosedrum, "~> 0.4"},
       {:nostrum, "~> 0.4.6"},
       {:jason, "~> 1.2"},
       {:httpoison, "~> 1.8.0"}

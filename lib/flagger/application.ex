@@ -1,6 +1,4 @@
 defmodule Flagger.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
@@ -8,11 +6,10 @@ defmodule Flagger.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      MessageConsumer
+      Nosedrum.Storage.ETS,
+      Flagger.Consumer
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Flagger.Supervisor]
     Supervisor.start_link(children, opts)
   end
