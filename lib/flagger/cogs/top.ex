@@ -6,7 +6,7 @@ defmodule Flagger.Cogs.Top do
   def usage, do: ["top <year>"]
 
   @impl true
-  def description, do: "Show the top ctf teams of the specified year."
+  def description, do: "Show the top CTF teams of the specified year."
 
   @impl true
   def parse_args([]), do: []

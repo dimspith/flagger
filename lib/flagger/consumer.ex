@@ -22,6 +22,4 @@ defmodule Flagger.Consumer do
   end
 
   def handle_event(_data), do: :ok
-  # "!top" ->
-  #   Api.create_message(msg.channel_id, content: "", embeds: [CTFTime.top(2021)])
 end
