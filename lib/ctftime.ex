@@ -46,7 +46,20 @@ defmodule CTFTime do
          hour <- String.pad_leading(Integer.to_string(dt.hour), 2, "0"),
          minute <- String.pad_leading(Integer.to_string(dt.minute), 2, "0")
       do
-      "**#{year}-#{month}-#{day} #{hour}:#{minute}**"
+      "#{year}-#{month}-#{day} #{hour}:#{minute}"
+    end
+  end
+
+
+  def day_of_week(dt) do
+    case Date.day_of_week(dt) do
+      1 -> "Monday"
+      2 -> "Tuesday"
+      3 -> "Wednesday"
+      4 -> "Thursday"
+      5 -> "Friday"
+      6 -> "Saturday"
+      7 -> "Sunday"
     end
   end
 
@@ -67,7 +80,7 @@ defmodule CTFTime do
               put_field(
                 acc,
                 "#{index + 1}) #{team["title"]}",
-                "Start: #{dt_to_string(start)}, Duration: **#{days} days, #{hours} hours**"
+                "Start: **#{day_of_week(start)} #{dt_to_string(start)}**, Duration: **#{days} days, #{hours} hours**"
               )
             end)
           end).()
