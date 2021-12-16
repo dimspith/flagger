@@ -1,4 +1,4 @@
-defmodule Flagger.Consumer do
+defmodule Flagger.CommandConsumer do
   use Nostrum.Consumer
 
   alias Nosedrum.Invoker.Split, as: CommandInvoker
@@ -10,7 +10,8 @@ defmodule Flagger.Consumer do
 
   @commands %{
     "echo" => Flagger.Cogs.Echo,
-    "top" => Flagger.Cogs.Top
+    "top" => Flagger.Cogs.Top,
+    "upcoming" => Flagger.Cogs.Upcoming
   }
 
   def handle_event({:READY, _data, _ws_state}) do

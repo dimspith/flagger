@@ -7,7 +7,7 @@ defmodule Flagger.Application do
   def start(_type, _args) do
     children = [
       Nosedrum.Storage.ETS,
-      Flagger.Consumer
+      Flagger.CommandConsumer
     ]
 
     opts = [strategy: :one_for_one, name: Flagger.Supervisor]
