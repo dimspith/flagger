@@ -7,7 +7,8 @@ defmodule Flagger.Application do
   def start(_type, _args) do
     children = [
       Nosedrum.Storage.ETS,
-      Flagger.CommandConsumer
+      Flagger.CommandConsumer,
+      {CubDB, data_dir: "./kvdb", auto_compact: true}
     ]
 
     opts = [strategy: :one_for_one, name: Flagger.Supervisor]

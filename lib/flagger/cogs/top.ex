@@ -2,6 +2,8 @@ defmodule Flagger.Cogs.Top do
   @behaviour Nosedrum.Command
   @moduledoc false
 
+  import CTFTime
+
   @impl true
   def usage, do: ["top <year>"]
 
@@ -27,12 +29,12 @@ defmodule Flagger.Cogs.Top do
   @impl true
   def command(msg, []) do
     {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [CTFTime.top()])
+      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [top_embed()])
   end
 
   def command(msg, :error) do
     {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "Not a valid year!")
+      Nostrum.Api.create_message(msg.channel_id, content: "Invalid year")
   end
 
   def command(msg, :mul_args) do
@@ -42,11 +44,11 @@ defmodule Flagger.Cogs.Top do
 
   def command(msg, :inv_year) do
     {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "Year must be after 2010!")
+      Nostrum.Api.create_message(msg.channel_id, content: "Year must be after 2010")
   end
 
   def command(msg, year) do
     {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [CTFTime.top(year)])
+      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [CTFTime.top_embed(year)])
   end
 end

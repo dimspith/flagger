@@ -22,10 +22,17 @@ defmodule Flagger.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # Discord bot libraries
       {:nosedrum, "~> 0.4"},
       {:nostrum, "~> 0.4.6"},
+
+      # Key-value database
+      {:cubdb, "~> 2.0"},
+
+      # Other
       {:jason, "~> 1.2"},
-      {:httpoison, "~> 1.8.0"}
+      {:httpoison, "~> 1.8.0"},
+      {:nimble_parsec, "~> 1.2"}
     ]
   end
 end

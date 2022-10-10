@@ -1,6 +1,6 @@
 defmodule Flagger.CommandConsumer do
   use Nostrum.Consumer
-
+  require Logger
   alias Nosedrum.Invoker.Split, as: CommandInvoker
   alias Nosedrum.Storage.ETS, as: CommandStorage
 
@@ -19,8 +19,9 @@ defmodule Flagger.CommandConsumer do
   end
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
+    Logger.info(msg)
     CommandInvoker.handle_message(msg, CommandStorage)
   end
 
-  def handle_event(_data), do: :ok
+  def handle_event(_event), do: :ok
 end
