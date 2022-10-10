@@ -12,14 +12,9 @@ defmodule Flagger.Cogs.Upcoming do
   def description, do: "Display upcoming events up to <days> days away"
 
   @impl true
-  def parse_args(args) when length(args) == 1 do
-    first_int =
-      args
-      |> Enum.at(0)
-      |> Integer.parse()
-
-    case first_int do
-      {days, _} -> time_range(days)
+  def parse_args([days] = args) when length(args) == 1 do
+    case Integer.parse(days) do
+      {days_int, _} -> days_int
       _ -> :error
     end
   end
@@ -47,15 +42,8 @@ defmodule Flagger.Cogs.Upcoming do
 
   @impl true
   def command(msg, args) do
-    {from_date, to_date} = args
+    {from_date, to_date} = time_range(args)
     response = upcoming_embed(from_date, to_date)
     {:ok, _msg} = Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [response])
   end
-
-  # def command(msg, dates) when length(dates) == 2 do
-  #   dates = dates |> Enum.map(&DateTime.to_unix/1)
-  #   [from_date, to_date] = dates
-  #   response = CTFTime.upcoming(from_date, to_date)
-  #   {:ok, _msg} = Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [response])
-  # end
 end

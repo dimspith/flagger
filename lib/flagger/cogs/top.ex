@@ -11,44 +11,26 @@ defmodule Flagger.Cogs.Top do
   def description, do: "Show the top CTF teams of the specified year."
 
   @impl true
-  def parse_args([]), do: []
-  def parse_args(args) when length(args) >= 2, do: :mul_args
-  def parse_args(args) do
-    first = Enum.at(args, 0)
-    int = Integer.parse(first)
-    cond do
-      int == :error -> :error
-      elem(int, 0) < 2011 -> :inv_year
-      true -> elem(int, 0)
+  def parse_args([year_str] = args) when length(args) == 1 do
+    case Integer.parse(year_str) do
+      {year, _} when year > 2010 -> year
+      _ -> :error
     end
   end
+
+  def parse_args(_args), do: :error
 
   @impl true
   def predicates, do: []
 
   @impl true
-  def command(msg, []) do
-    {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [top_embed()])
-  end
 
   def command(msg, :error) do
-    {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "Invalid year")
-  end
-
-  def command(msg, :mul_args) do
-    {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "Multiple arguments are not supported!")
-  end
-
-  def command(msg, :inv_year) do
-    {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "Year must be after 2010")
+    {:ok, _msg} = Nostrum.Api.create_message(msg.channel_id, content: "Invalid year")
   end
 
   def command(msg, year) do
     {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [CTFTime.top_embed(year)])
+      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [top_embed(year)])
   end
 end

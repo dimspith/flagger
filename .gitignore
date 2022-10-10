@@ -25,3 +25,4 @@ flagger-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 /kvdb/
+/mix.lock/
