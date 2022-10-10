@@ -41,33 +41,39 @@ defmodule CTFTime do
     end
   end
 
-  defp construct_upcoming_embed(string) do
+  defp construct_event_embed(string) do
     with json <- Jason.decode!(string) do
       %Nostrum.Struct.Embed{}
       |> put_title("Upcoming CTFs")
-      # |> put_description("-Time")
-      # |> put_url("https://ctftime.org/stats/2021")
+      |> put_description("I found `#{length(json)}` CTFs.")
       |> put_color(35020)
+      |> put_url("https://ctftime.org/event/list/upcoming")
+      |> put_thumbnail("https://placekitten.com/700/500")
+      |> put_timestamp(DateTime.utc_now() |> DateTime.to_iso8601())
       |> (fn x ->
-            Enum.reduce(Enum.with_index(json), x, fn team, acc ->
-              {team, index} = team
+        Enum.reduce(Enum.with_index(json), x,
+          fn {team, index}, acc ->
               days = team["duration"]["days"]
               hours = team["duration"]["hours"]
               {_, start, _} = DateTime.from_iso8601(team["start"])
-
-              put_field(
-                acc,
-                "[#{index + 1}] #{team["title"]}",
-                "**Start:** #{day_of_week(start)} #{dt_to_string(start)}, **Duration:** #{days} days, #{hours} hours"
+              
+              acc
+              |> put_field(
+                "#{index + 1}. #{team["title"]}",
+              "Starts " <>
+                unix_time_to_discord(DateTime.to_unix(start)) <>
+                "\n**Duration:** #{days} days #{hours} hours" <>
+                "\n**[LINK](#{team["url"]})** - " <> "**[CTFTIME](#{team["ctftime_url"]})**",
+              true
               )
-            end)
-          end).()
+        end)
+      end).()
     end
   end
 
   def upcoming_embed(date1, date2) do
     case get("https://ctftime.org/api/v1/events/?limit=50&start=#{date1}&finish=#{date2}") do
-      {:ok, response} -> construct_upcoming_embed(response.body)
+      {:ok, response} -> construct_event_embed(response.body)
       {:error, _} -> "API Error, try again later."
     end
   end
