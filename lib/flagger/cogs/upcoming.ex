@@ -36,7 +36,7 @@ defmodule Flagger.Cogs.Upcoming do
       Nostrum.Api.create_message(
         msg.channel_id,
         content: "",
-        embeds: [command_help_embed("Upcoming", hd(usage()), description())]
+        embeds: [cog_help_embed(__MODULE__, "Upcoming")]
       )
   end
 

@@ -25,10 +25,14 @@ defmodule Flagger.Utils do
     end
   end
 
-  def command_help_embed(command, usage, description) do
+  def list_to_mlstr(list) do
+    list |> Enum.reduce("", fn item, acc -> acc <> item <> "\n" end)
+  end
+
+  def cog_help_embed(cog, cog_title) do
     %Nostrum.Struct.Embed{}
-    |> put_title(command)
-    |> put_field("**Usage: **", usage)
-    |> put_field("**Description:: **", description)
+    |> put_title(cog_title)
+    |> put_field("**Usage: **", list_to_mlstr(cog.usage()))
+    |> put_field("**Description:: **", cog.description())
   end
 end
