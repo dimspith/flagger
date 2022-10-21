@@ -4,6 +4,30 @@ defmodule Flagger.Cogs.Top do
 
   import CTFTime
 
+  import Nostrum.Struct.Embed
+
+  defp top_embed(json) do
+    with year <- Enum.at(Map.keys(json), 0),
+         json <- json[year] do
+      %Nostrum.Struct.Embed{}
+      |> put_title("Top 10 CTF Teams of #{year}")
+      |> put_description("from CTF-Time")
+      |> put_url("https://ctftime.org/stats/2021")
+      |> put_color(14_876_683)
+      |> (fn x ->
+        Enum.reduce(Enum.with_index(json), x, fn team, acc ->
+          {team, index} = team
+
+          put_field(
+            acc,
+            "#{index + 1}) #{team["team_name"]}",
+            "Points: **#{round(team["points"])}**"
+          )
+        end)
+      end).()
+    end
+  end
+
   @impl true
   def usage, do: ["top <year>"]
 
@@ -30,7 +54,10 @@ defmodule Flagger.Cogs.Top do
   end
 
   def command(msg, year) do
-    {:ok, _msg} =
-      Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [top_embed(year)])
+    case top(year) do
+      {:ok, json} -> Nostrum.Api.create_message(msg.channel_id, content: "", embeds: [top_embed(json)])
+      {:error, error} -> Nostrum.Api.create_message(msg.channel_id, content: error)
+    end
   end
 end
+
