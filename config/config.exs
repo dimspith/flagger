@@ -1,10 +1,13 @@
 import Config
 
 config :nostrum,
-  token: ""
+  token: System.get_env("BOT_TOKEN"),
+  gateway_intents: [
+    :guilds,
+    :guild_messages,
+    :guild_message_reactions,
+    :message_content
+  ]
 
 config :logger,
-  level: :info
-
-config :nosedrum,
-  prefix: System.get_env("BOT_PREFIX") || ";"
+  level: :debug

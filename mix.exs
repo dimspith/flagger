@@ -14,7 +14,7 @@ defmodule Flagger.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      # extra_applications: [:logger],
       mod: {Flagger.Application, []}
     ]
   end
@@ -23,11 +23,10 @@ defmodule Flagger.MixProject do
   defp deps do
     [
       # Discord bot libraries
-      {:nosedrum, "~> 0.4"},
-      {:nostrum, "~> 0.4.6"},
+      {:nostrum, "~> 0.8.0"},
 
       # Key-value database
-      {:cubdb, "~> 2.0"},
+      {:cubdb, "~> 2.0.2"},
 
       # Other
       {:jason, "~> 1.2"},

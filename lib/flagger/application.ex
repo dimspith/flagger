@@ -6,8 +6,7 @@ defmodule Flagger.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Nosedrum.Storage.ETS,
-      Flagger.CommandConsumer,
+      Flagger.Consumer,
       {CubDB, data_dir: "./kvdb", auto_compact: true}
     ]
 

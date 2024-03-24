@@ -1,7 +1,7 @@
 defmodule CTFTime do
   import HTTPoison
   require Logger
-  
+
   def top do
     case get("https://ctftime.org/api/v1/top/") do
       {:ok, response} -> {:ok, Jason.decode!(response.body)}
@@ -23,4 +23,3 @@ defmodule CTFTime do
     end
   end
 end
-
