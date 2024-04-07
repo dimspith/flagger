@@ -30,7 +30,7 @@ defmodule Flagger.MixProject do
 
       # Other
       {:jason, "~> 1.2"},
-      {:httpoison, "~> 1.8.0"},
+      {:req, "~> 0.4.0"},
       {:nimble_parsec, "~> 1.2"}
     ]
   end
